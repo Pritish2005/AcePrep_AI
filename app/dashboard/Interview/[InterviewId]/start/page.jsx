@@ -5,6 +5,8 @@ import { eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react'
 import InterviewQuestion from './_components/InterviewQuestion';
 import RecordAnswer from './_components/RecordAnswer';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 function StartInterview({params}) {
   const [interviewData, setInterviewData] = useState(null);
@@ -24,13 +26,27 @@ function StartInterview({params}) {
     setMockInterviewQuestions(jsonMockresponse);
   };
   return (
+    <div>
+
     <div className=' grid grid-cols-1 md:grid-cols-2 gap-10'>
       <InterviewQuestion
         mockInterviewQuestions={mockInterviewQuestions}
         activeQuestion={activeQuestion}
-       />
-       <RecordAnswer/>
+        />
+       <RecordAnswer
+          mockInterviewQuestions={mockInterviewQuestions}
+          activeQuestion={activeQuestion}
+          interviewData={interviewData}
+          />
     </div>
+    <div className=' flex justify-end items-center gap-6'>
+      {activeQuestion>0 &&<Button onClick={()=>setActiveQuestion(activeQuestion-1)}>Previous Question</Button>}
+      {activeQuestion!=mockInterviewQuestions?.length-1&&<Button onClick={()=>setActiveQuestion(activeQuestion+1)}>Next Question</Button>}
+      <Link href={'/dashboard/Interview/'+interviewData?.mockId+'/feedback'}>
+      {activeQuestion==mockInterviewQuestions?.length-1&&<Button variant="destructive">End Interview</Button>}
+      </Link>
+    </div>
+  </div>
   )
 }
 
