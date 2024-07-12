@@ -35,7 +35,7 @@ function Addnewinterview() {
     const handleSubmit = async(e) => {
       e.preventDefault();
       console.log(jobDesc, jobRole, yearsOfExp);
-      const InputPrompt="Job Position:ML devoloper Job Role:Python,flask,tensorflow Years of Experience:1 create me a set of 5 question that can be asked in an interview based on these along with an answer in JSON format in one answer only"
+      const InputPrompt="Job Position: "+jobRole+", Job Description: "+jobDesc+", Years of Experience: "+yearsOfExp+" create me a set of 5 question that can be asked in an interview based on these along with an answer in JSON format in one answer only"
       setLoading(true);
       const res=await chatSession.sendMessage(InputPrompt);
       const mockInterviewResponse=res.response.text().replace('```json','').replace('```','');

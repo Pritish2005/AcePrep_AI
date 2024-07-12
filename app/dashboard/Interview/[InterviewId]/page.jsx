@@ -4,6 +4,7 @@ import { db } from '@/utils/db'
 import { MockInterview } from '@/utils/schema'
 import { eq } from 'drizzle-orm'
 import { Lightbulb, WebcamIcon } from 'lucide-react'
+import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import Webcam from 'react-webcam'
 
@@ -42,8 +43,8 @@ function Interview({params}) {
                     onUserMedia={()=>setWebcamEnable(true)}
                     onUserMediaError={()=>setWebcamEnable(false)}
                     style={{
-                        height:300,
-                        width:300
+                        height:400,
+                        width:700
                     }}
                     />
                 :
@@ -56,7 +57,9 @@ function Interview({params}) {
         
      </div>
      <div className=" flex justify-end items-end mt-10">
-     <Button >Start Interview</Button>
+        <Link href={"/dashboard/Interview/"+params.InterviewId+"/start"}>
+            <Button>Start Interview</Button>
+        </Link>
      </div>
     </div>
   )
