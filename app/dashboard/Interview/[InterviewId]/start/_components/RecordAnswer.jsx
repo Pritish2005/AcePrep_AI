@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { Button } from '@/components/ui/button';
 import db from '@/utils/db';
 import { chatSession } from '@/utils/GeminiAiModel';
@@ -16,7 +16,7 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
   const [userAnswer, setUserAnswer] = useState('');
   const { user } = useUser();
   const [loading, setLoading] = useState(false);
-  
+
   const {
     error,
     interimResult,
@@ -41,18 +41,11 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
     if (!isRecording && userAnswer.length > 10) {
       updateAnswer();
     }
-    // if (userAnswer.length < 10) {
-    //     setLoading(false);
-    //     toast('Error While Saving your Answer, Please record again');
-    //     return;
-    //   }
   }, [isRecording]);
 
   const StartStopRecording = async () => {
     if (isRecording) {
       stopSpeechToText();
-    //   console.log(userAnswer);
-      
     } else {
       startSpeechToText();
     }
@@ -60,31 +53,36 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
 
   const updateAnswer = async () => {
     setLoading(true);
-    // console.log(userAnswer);
-    const feedbackPrompt = `Question: ${mockInterviewQuestions[activeQuestion]?.question}, User Answer: ${userAnswer} based on the question and answer please give a rating for answer and area of improvement. Please give in just 3 to 5 lines as in JSON format with rating field out of 10, as feebback:(then some feedback on the response in 3 to 5 lines), rating:(rating out of 10)`;
-    const res = await chatSession.sendMessage(feedbackPrompt);
-    const mockJsonResp = res.response.text().replace('```json', '').replace('```', '');
-    console.log(mockJsonResp);
-    const jsonFeedbackResponse = JSON.parse(mockJsonResp);
-    const resp = await db.insert(UserAnswer).values({
-    mockIdRef: interviewData?.mockId,
-      question: mockInterviewQuestions[activeQuestion]?.question,
-      correctAns: mockInterviewQuestions[activeQuestion]?.answer,
-      userAns: userAnswer,
-      feedback: jsonFeedbackResponse?.feedback,
-      rating: jsonFeedbackResponse?.rating,
-      userEmail: user?.primaryEmailAddress?.emailAddress,
-      createdAt: moment().format('DD-MM-yyyy'),
-    });
+    try {
+      const feedbackPrompt = `Question: ${mockInterviewQuestions[activeQuestion]?.question}, User Answer: ${userAnswer} based on the question and answer please give a rating for answer and area of improvement. Please give in just 3 to 5 lines as in JSON format with rating field out of 10, as feedback:(then some feedback on the response in 3 to 5 lines), rating:(rating out of 10)`;
+      const res = await chatSession.sendMessage(feedbackPrompt);
+      const mockJsonResp = res.response.text().replace('```json', '').replace('```', '');
+      const jsonFeedbackResponse = JSON.parse(mockJsonResp);
+      
+      const resp = await db.insert(UserAnswer).values({
+        mockIdRef: interviewData?.mockId,
+        question: mockInterviewQuestions[activeQuestion]?.question,
+        correctAns: mockInterviewQuestions[activeQuestion]?.answer,
+        userAns: userAnswer,
+        feedback: jsonFeedbackResponse?.feedback,
+        rating: jsonFeedbackResponse?.rating,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
+        createdAt: moment().format('DD-MM-yyyy'),
+      });
 
-    if (resp) {
-      toast("User Answer Recorded successfully");
-      setUserAnswer('');
-      setResults([]);
+      if (resp) {
+        toast("User Answer Recorded successfully");
+        setUserAnswer('');
+        setResults([]);
+      } else {
+        toast('Error while saving your answer, please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating answer:', error);
+      toast('Error while processing your answer, please try again.');
+    } finally {
+      setLoading(false);
     }
-    setResults([]);
-
-    setLoading(false);
   };
 
   return (

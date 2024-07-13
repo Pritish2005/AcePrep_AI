@@ -1,5 +1,5 @@
 import { Lightbulb, Volume2 } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function InterviewQuestion({mockInterviewQuestions,activeQuestion}) {
     const textToSpeech=(text)=>{
@@ -13,7 +13,7 @@ function InterviewQuestion({mockInterviewQuestions,activeQuestion}) {
   return mockInterviewQuestions&&(
     <div className=' p-5 rounded-lg border my-10'>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
-      {mockInterviewQuestions && mockInterviewQuestions.map((question,index)=>(
+      {mockInterviewQuestions && mockInterviewQuestions?.map((question,index)=>(
         <h2 key={index} className={`p-2 rounded-full text-xs md:text-sm text-center cursor-pointer ${index==activeQuestion?'bg-primary text-white':'bg-secondary'}`}>question#{index+1}</h2>
       ))}
     </div>

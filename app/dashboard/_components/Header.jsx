@@ -7,9 +7,9 @@ import React, { useEffect } from 'react'
 
 function Header() {
     const path=usePathname();
-    useEffect(()=>{
-        console.log(path);
-    },[])
+    // useEffect(()=>{
+    //     // console.log(path);
+    // },[])
   return (
     <div className='flex p-3 justify-between items-center bg-secondary shadow'>
       <h1 className=' text-2xl font-extrabold'>AcePrep <span className=' text-primary'>AI</span></h1>
