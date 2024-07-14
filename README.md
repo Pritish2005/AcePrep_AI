@@ -1,4 +1,4 @@
-# AI Mock Interview Taker Application
+# AcePrep AI- an AI Mock Interview Taker Application
 
 ## Problem Statement
 In the competitive job market, candidates often find it challenging to prepare for interviews, especially when they don't have access to professional mock interviews. This application aims to provide an AI-powered mock interview platform that helps candidates practice and receive feedback on their interview performance based on their resume and skills.
