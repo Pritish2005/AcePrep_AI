@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI Mock Interview Taker Application
 
-## Getting Started
+## Problem Statement
+In the competitive job market, candidates often find it challenging to prepare for interviews, especially when they don't have access to professional mock interviews. This application aims to provide an AI-powered mock interview platform that helps candidates practice and receive feedback on their interview performance based on their resume and skills.
 
-First, run the development server:
+## Tech Stack Used
+- **Frontend:**
+  - Next.js
+  - React.js
+  - Tailwind CSS
+  - ShadcnUI
+- **Backend:**
+  - DrizzleORM
+  - PostgreSQL
+- **Authentication:**
+  - Clerk
+- **AI Services:**
+  - Google Gemini API (via chatSession)
+- **Miscellaneous:**
+  - react-hook-speech-to-text
+  - moment.js
+  - react-webcam
+  - lucide-react
+  - sonner (for notifications)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Application Flow Diagram
+![image](https://github.com/user-attachments/assets/59c6132e-cf89-4607-96be-2dba8576c133)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Description
+This AI mock interview application simulates a real interview environment where candidates can:
+1. **Sign Up and Log In:** Users can authenticate using Clerk.
+2. **Dashboard:** View a personalized dashboard with options to add new mock interviews or review past ones.
+3. **Create Mock Interview:** Input job role, job description, and years of experience to generate relevant interview questions using AI.
+4. **Conduct Interview:** Enable webcam and microphone to simulate a real interview environment. Answer AI-generated questions, and the system records and analyzes responses.
+5. **Feedback:** Receive detailed feedback on answers, including a rating and areas for improvement.
+6. **Review Past Interviews:** View previous interviews and feedback for continuous improvement.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Challenges Faced
+- **Integrating AI with Real-time Feedback:** Ensuring the AI-generated questions and feedback are relevant and accurate.
+- **Speech Recognition:** Implementing robust speech-to-text functionality to capture user responses effectively.
+- **UI/UX Design:** Creating a user-friendly and intuitive interface that simulates a real interview environment.
+- **Performance Optimization:** Managing real-time video and audio streams while maintaining application performance.
+- **Data Persistence:** Ensuring user data, including interview responses and feedback, is securely stored and easily retrievable.
