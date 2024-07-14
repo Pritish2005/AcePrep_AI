@@ -26,7 +26,7 @@ function page({params}) {
         .where(eq(UserAnswer.mockIdRef,params.InterviewId))
         .orderBy(UserAnswer.id);
 
-        console.log(result)
+        // console.log(result)
         setFeedbackList(result);
 
         if (result.length > 0) {

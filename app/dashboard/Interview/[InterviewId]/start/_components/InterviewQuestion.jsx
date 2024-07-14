@@ -24,7 +24,7 @@ function InterviewQuestion({mockInterviewQuestions,activeQuestion}) {
         <Lightbulb/>
         <strong>Note:</strong>
         </h2>
-        <h2 className='text-sm text-primary my-2'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus natus hic reprehenderit voluptas velit sed nam eos aperiam molestiae quas ad, at accusamus amet dolores possimus ipsum quia laborum esse tempora distinctio consectetur et. Omnis amet accusamus facilis iure reiciendis.</h2>
+        <h2 className='text-sm text-primary my-2'>Switch on your Video for a better interview experience, we do not record your video. Switch on your mic to record the Answer.</h2>
       </div>
     </div>
   )

@@ -33,7 +33,7 @@ function Interview({params}) {
             </div>
         <div className=' p-5 bg-yellow-100 border-yellow-300 border rounded-lg'>
             <h2 className='flex gap-2 items-center text-yellow-500'><Lightbulb/><strong> Information</strong></h2>
-            <h2 className='mt-7 text-yellow-500'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat dolore ipsum et saepe repellat dolorem odit soluta inventore ea corporis commodi quae quisquam minus magnam nemo qui, sed doloremque. Cupiditate?</h2>
+            <h2 className='mt-7 text-yellow-500'>Switch on your Video for a better interview experience, We do not record your video. Switch on your microphone to record the Answer.</h2>
         </div>
         </div>
         <div>

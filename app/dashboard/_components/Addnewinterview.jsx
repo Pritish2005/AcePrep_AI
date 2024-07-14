@@ -31,7 +31,7 @@ function Addnewinterview() {
     const router = useRouter();
 
     useEffect(() => {
-        console.log(jsonResponse); // Log jsonResponse to ensure it's updated correctly
+        // console.log(jsonResponse); // Log jsonResponse to ensure it's updated correctly
     }, [jsonResponse]);
 
     const handleSubmit = async (e) => {
@@ -41,11 +41,11 @@ function Addnewinterview() {
         setLoading(true);
         const res = await chatSession.sendMessage(InputPrompt);
         const mockInterviewResponse = res.response.text().replace('```json', '').replace('```', '');
-        console.log(mockInterviewResponse);
+        // console.log(mockInterviewResponse);
         
         try {
             const parsedResponse = JSON.parse(mockInterviewResponse);
-            console.log(parsedResponse);
+            // console.log(parsedResponse);
             setJsonResponse(parsedResponse);
 
             if (parsedResponse) {
@@ -60,7 +60,7 @@ function Addnewinterview() {
                         createdAt: moment().format('DD-MM-yyyy')
                     }).returning({ mockId: MockInterview.mockId });
 
-                console.log('Inserted Id: ', resp);
+                // console.log('Inserted Id: ', resp);
                 if (resp) {
                     setOpenDialog(false);
                     router.push('/dashboard/Interview/' + resp[0]?.mockId);
