@@ -11,6 +11,7 @@ import React, { useEffect, useState } from 'react';
 import useSpeechToText from 'react-hook-speech-to-text';
 import Webcam from 'react-webcam';
 import { toast } from 'sonner';
+import { model, generationConfig } from '@/utils/GeminiAiModel'
 
 function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData }) {
   const [userAnswer, setUserAnswer] = useState('');
@@ -58,7 +59,7 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
     try {
       const feedbackPrompt = `Question: ${mockInterviewQuestions[activeQuestion]?.question}, User Answer: ${userAnswer} based on the question and answer please give a rating for answer and area of improvement. Please give in just 3 to 5 lines as in JSON format with rating field out of 10, as feedback:(then some feedback on the response in 3 to 5 lines), rating:(rating out of 10)`;
 
-      const res = await chatSession.sendMessage(feedbackPrompt);
+      const res = await model.generateContent(feedbackPrompt);
       const mockJsonResp = res.response
         .text()
         .replace('```json', '')

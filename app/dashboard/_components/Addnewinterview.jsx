@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { chatSession } from '@/utils/GeminiAiModel';
+import { model, generationConfig } from '@/utils/GeminiAiModel'
 import { LoaderCircle } from 'lucide-react';
 import { db } from '@/utils/db';
 import { v4 as uuidv4 } from 'uuid';
@@ -62,7 +62,7 @@ Rules:
 `;
 ;
         setLoading(true);
-        const res = await chatSession.sendMessage(InputPrompt);
+        const res = await model.generateContent(InputPrompt);;
         const mockInterviewResponse = res.response.text().replace('```json', '').replace('```', '');
         if(mockInterviewResponse === 'Not in context'){
             return new Error('Not in context');
