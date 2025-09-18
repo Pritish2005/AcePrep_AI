@@ -57,8 +57,8 @@ function page({params}) {
                     <CollapsibleContent>
                         <div className='flex flex-col gap-2'>
                             <h2 className=' text-red-500 p-2 border rounded-lg'><strong>Rating: </strong>{item.rating}</h2>
-                            <h2 className=' p-2 border rounded-lg bg-red-50 text-left text-red-900'><strong>Your Answer: </strong>{item.userAns}</h2>
-                            <h2 className='p-2 border rounded-lg bg-green-50 text-left text-green-900'><strong>Correct Answer: </strong>{item.correctAns}</h2>
+                            <h2 className=' p-2 border rounded-lg bg-red-50 text-left text-red-900'><strong>Your Answer: </strong>{item.user_ans}</h2>
+                            <h2 className='p-2 border rounded-lg bg-green-50 text-left text-green-900'><strong>Correct Answer: </strong>{item.correct_ans}</h2>
                             <h2 className='p-2 border rounded-lg bg-blue-50 text-left text-blue-900'><strong>Feedback: </strong>{item.feedback}</h2>
                         </div>
                     </CollapsibleContent>

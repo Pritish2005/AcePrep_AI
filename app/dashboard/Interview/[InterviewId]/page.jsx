@@ -30,9 +30,9 @@ function Interview({params}) {
      <div className=' grid grid-cols-1 md:grid-cols-2 gap-5'>
         <div className=' flex flex-col my-5 gap-5 '>
             <div className='flex flex-col p-5 rounded-lg border gap-5'>
-            <h2 className=' text-lg'><strong>Job Role/Job Position: </strong>{interviewData.jobPosition}</h2>
-            <h2 className=' text-lg'><strong>Job Desciption/Tech Stack: </strong>{interviewData.jobDesc}</h2>
-            <h2 className=' text-lg'><strong>Years of Experience: </strong>{interviewData.jobExperience}</h2>
+            <h2 className=' text-lg'><strong>Job Role/Job Position: </strong>{interviewData.job_position}</h2>
+            <h2 className=' text-lg'><strong>Job Desciption/Tech Stack: </strong>{interviewData.job_desc}</h2>
+            <h2 className=' text-lg'><strong>Years of Experience: </strong>{interviewData.job_experience}</h2>
             </div>
         <div className=' p-5 bg-yellow-100 border-yellow-300 border rounded-lg'>
             <h2 className='flex gap-2 items-center text-yellow-500'><Lightbulb/><strong> Information</strong></h2>

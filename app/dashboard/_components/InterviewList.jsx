@@ -2,7 +2,7 @@
 import {db} from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { useUser } from '@clerk/nextjs'
-import { desc, eq } from 'drizzle-orm';
+import { asc, desc, eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react'
 import InterviewItemCard from './InterviewItemCard';
 
@@ -18,9 +18,9 @@ function InterviewList() {
         const result=await db.select()
         .from(MockInterview)
         .where(eq(MockInterview.created_by, user?.primaryEmailAddress?.emailAddress))
-        // .orderBy(desc(MockInterview.created_at))
+        .orderBy(desc(MockInterview.created_at))
 
-        console.log(result);
+        // console.log(result);
         setInterviewList(result);
     }
   return (

@@ -38,11 +38,36 @@ function Addnewinterview() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(jobDesc, jobRole, yearsOfExp);
-        const InputPrompt = "Job Position: " + jobRole + ", Job Description: " + jobDesc + ", Years of Experience: " + yearsOfExp + " create me a set of 5 question that can be asked in an interview based on these along with an answer in JSON format in one answer only, without using a markdown, only the format so that it can be json parsed. Do not give questions that require some code, only give text questions with text answers. Also if any prompt comes that just out of the interview context, return null, this is a sample format [{question: What is the difference between a function and a method?, answer: A function is a block of code which only returns a value. A method}]";
+        const InputPrompt = `
+You are an interview question generator.
+
+Input:
+- Job Position: ${jobRole}
+- Job Description: ${jobDesc}
+- Years of Experience: ${yearsOfExp}
+
+Instructions:
+1. If the input is valid and related to a job interview, output EXACTLY 5 question-answer pairs.
+2. The output must be a JSON array ONLY (not wrapped in any object, no property names). Example:
+[
+  { "question": "What is the difference between a function and a method?", "answer": "A function is a block of code that returns a value, a method is associated with an object." },
+  { "question": "Explain the concept of OOP?", "answer": "OOP is based on encapsulation, inheritance, polymorphism, and abstraction." }
+]
+3. If the input is irrelevant, meaningless, or not job-related, return the exact string:
+Not in context
+
+Rules:
+- No object wrappers (like {"interviewQuestions": [...]}) — only a raw JSON array.
+- No markdown, no explanation, no text outside the JSON array or the string Not in context.
+`;
+;
         setLoading(true);
         const res = await chatSession.sendMessage(InputPrompt);
         const mockInterviewResponse = res.response.text().replace('```json', '').replace('```', '');
-        // console.log(mockInterviewResponse);
+        if(mockInterviewResponse === 'Not in context'){
+            return new Error('Not in context');
+        }
+        console.log(mockInterviewResponse);
     //    const mockInterviewResponse = `[
     //     {
     //         "question": "What is the difference between React and Angular?",
