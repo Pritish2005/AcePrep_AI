@@ -18,10 +18,10 @@ function StartInterview({params}) {
   }, []);
 
   const getDetails = async () => {
-    const res = await db.select().from(MockInterview).where(eq(MockInterview.mockId, params.InterviewId));
+    const res = await db.select().from(MockInterview).where(eq(MockInterview.mock_id, params.InterviewId));
     console.log(res);
     setInterviewData(res[0]);
-    const jsonMockresponse=JSON.parse(res[0].jsonMockResp);
+    const jsonMockresponse=JSON.parse(res[0].json_mock_resp);
     console.log(jsonMockresponse);
     setMockInterviewQuestions(jsonMockresponse);
   };
@@ -42,7 +42,7 @@ function StartInterview({params}) {
     <div className=' flex justify-end items-center gap-6'>
       {activeQuestion>0 &&<Button onClick={()=>setActiveQuestion(activeQuestion-1)}>Previous Question</Button>}
       {activeQuestion!=mockInterviewQuestions?.length-1&&<Button onClick={()=>setActiveQuestion(activeQuestion+1)}>Next Question</Button>}
-      <Link href={'/dashboard/Interview/'+interviewData?.mockId+'/feedback'}>
+      <Link href={'/dashboard/Interview/'+interviewData?.mock_id+'/feedback'}>
       {activeQuestion==mockInterviewQuestions?.length-1&&<Button variant="destructive">End Interview</Button>}
       </Link>
     </div>

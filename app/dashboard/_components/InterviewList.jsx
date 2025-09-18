@@ -1,5 +1,5 @@
 'use client'
-import db from '@/utils/db';
+import {db} from '@/utils/db';
 import { MockInterview } from '@/utils/schema';
 import { useUser } from '@clerk/nextjs'
 import { desc, eq } from 'drizzle-orm';
@@ -17,10 +17,10 @@ function InterviewList() {
     const getInterviewList=async()=>{
         const result=await db.select()
         .from(MockInterview)
-        .where(eq(MockInterview?.createdBy,user?.primaryEmailAddress?.emailAddress))
-        .orderBy(desc(MockInterview.id))
+        .where(eq(MockInterview.created_by, user?.primaryEmailAddress?.emailAddress))
+        // .orderBy(desc(MockInterview.created_at))
 
-        // console.log(result);
+        console.log(result);
         setInterviewList(result);
     }
   return (
@@ -29,7 +29,7 @@ function InterviewList() {
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
         {interviewList&&interviewList.map((interview,index)=>(
-            <InterviewItemCard interview={interview}/>
+            <InterviewItemCard key={index} interview={interview}/>
         ))}
       </div>
     </div>

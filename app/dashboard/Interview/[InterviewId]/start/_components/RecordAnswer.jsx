@@ -1,8 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import db from '@/utils/db';
+import {db} from '@/utils/db';
 import { chatSession } from '@/utils/GeminiAiModel';
-import { UserAnswer } from '@/utils/schema';
+import { userAnswer as UserAnswerTable } from '@/utils/schema'; // ✅ alias to avoid name clash
 import { useUser } from '@clerk/nextjs';
 import { Mic } from 'lucide-react';
 import moment from 'moment';
@@ -30,6 +30,7 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
     useLegacyResults: false,
   });
 
+  // ✅ Build transcript from speech
   useEffect(() => {
     if (results.length > 0) {
       const newTranscript = results.map(result => result.transcript).join(' ');
@@ -37,6 +38,7 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
     }
   }, [results]);
 
+  // ✅ Auto-save when recording stops
   useEffect(() => {
     if (!isRecording && userAnswer.length > 10) {
       updateAnswer();
@@ -55,23 +57,28 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
     setLoading(true);
     try {
       const feedbackPrompt = `Question: ${mockInterviewQuestions[activeQuestion]?.question}, User Answer: ${userAnswer} based on the question and answer please give a rating for answer and area of improvement. Please give in just 3 to 5 lines as in JSON format with rating field out of 10, as feedback:(then some feedback on the response in 3 to 5 lines), rating:(rating out of 10)`;
+
       const res = await chatSession.sendMessage(feedbackPrompt);
-      const mockJsonResp = res.response.text().replace('```json', '').replace('```', '');
+      const mockJsonResp = res.response
+        .text()
+        .replace('```json', '')
+        .replace('```', '');
       const jsonFeedbackResponse = JSON.parse(mockJsonResp);
-      
-      const resp = await db.insert(UserAnswer).values({
-        mockIdRef: interviewData?.mockId,
+
+      // ✅ Insert into Drizzle table (using alias)
+      const resp = await db.insert(UserAnswerTable).values({
+        mock_id_ref: interviewData?.mock_id,
         question: mockInterviewQuestions[activeQuestion]?.question,
-        correctAns: mockInterviewQuestions[activeQuestion]?.answer,
-        userAns: userAnswer,
+        correct_ans: mockInterviewQuestions[activeQuestion]?.answer,
+        user_ans: userAnswer,
         feedback: jsonFeedbackResponse?.feedback,
         rating: jsonFeedbackResponse?.rating,
-        userEmail: user?.primaryEmailAddress?.emailAddress,
-        createdAt: moment().format('DD-MM-yyyy'),
+        user_email: user?.primaryEmailAddress?.emailAddress,
+        created_at: moment().format('DD-MM-yyyy'),
       });
 
       if (resp) {
-        toast("User Answer Recorded successfully");
+        toast('User Answer Recorded successfully');
         setUserAnswer('');
         setResults([]);
       } else {
@@ -88,7 +95,13 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='flex flex-col mt-20 justify-center items-center rounded-lg bg-black relative'>
-        <Image className='absolute' src={'/webcam.png'} height={200} width={200} alt='cam' />
+        <Image
+          className='absolute'
+          src={'/webcam.png'}
+          height={200}
+          width={200}
+          alt='cam'
+        />
         <Webcam
           mirrored={true}
           style={{
@@ -98,7 +111,12 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
           }}
         />
       </div>
-      <Button disabled={loading} variant='outline' className='my-10' onClick={StartStopRecording}>
+      <Button
+        disabled={loading}
+        variant='outline'
+        className='my-10'
+        onClick={StartStopRecording}
+      >
         {isRecording ? (
           <h2 className='flex text-red-600 items-center gap-2'>
             <Mic /> Stop Recording
@@ -107,7 +125,6 @@ function RecordAnswer({ mockInterviewQuestions, activeQuestion, interviewData })
           <h2 className='text-blue-800 text-center'>Record Answer</h2>
         )}
       </Button>
-      {/* <Button onClick={() => console.log(userAnswer)}>Show User Answer</Button> */}
     </div>
   );
 }

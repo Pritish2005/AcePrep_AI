@@ -28,6 +28,7 @@ function Addnewinterview() {
     const [loading, setLoading] = useState(false);
     const [jsonResponse, setJsonResponse] = useState([]);
     const { user } = useUser();
+    // console.log(user)
     const router = useRouter();
 
     useEffect(() => {
@@ -42,28 +43,52 @@ function Addnewinterview() {
         const res = await chatSession.sendMessage(InputPrompt);
         const mockInterviewResponse = res.response.text().replace('```json', '').replace('```', '');
         // console.log(mockInterviewResponse);
-        
+    //    const mockInterviewResponse = `[
+    //     {
+    //         "question": "What is the difference between React and Angular?",
+    //         "answer": "React is a library focused on UI rendering while Angular is a full-fledged framework."
+    //     },
+    //     {
+    //         "question": "What is state management in frontend development?",
+    //         "answer": "State management is the handling of application data across components, often with tools like Redux or Context API."
+    //     },
+    //     {
+    //         "question": "What are the advantages of component-based architecture?",
+    //         "answer": "It promotes reusability, easier testing, and better maintainability."
+    //     },
+    //     {
+    //         "question": "What is the difference between controlled and uncontrolled components in React?",
+    //         "answer": "Controlled components rely on React state while uncontrolled components store data in the DOM."
+    //     },
+    //     {
+    //         "question": "How would you ensure accessibility in a web application?",
+    //         "answer": "By using semantic HTML, ARIA roles, proper contrast ratios, and keyboard navigation support."
+    //     }
+    //     ]`;
+
         try {
             const parsedResponse = JSON.parse(mockInterviewResponse);
-            // console.log(parsedResponse);
+            console.log(parsedResponse);
             setJsonResponse(parsedResponse);
 
             if (parsedResponse) {
+                // console.log('saving to db...')
                 const resp = await db.insert(MockInterview)
-                    .values({
-                        mockId: uuidv4(),
-                        jobDesc: jobDesc,
-                        jobPosition: jobRole,
-                        jobExperience: yearsOfExp,
-                        jsonMockResp: JSON.stringify(parsedResponse),
-                        createdBy: user?.primaryEmailAddress?.emailAddress,
-                        createdAt: moment().format('DD-MM-yyyy')
-                    }).returning({ mockId: MockInterview.mockId });
+                .values({
+                    mock_id: uuidv4(),
+                    job_desc: jobDesc,
+                    job_position: jobRole,
+                    job_experience: yearsOfExp,
+                    json_mock_resp: JSON.stringify(parsedResponse),
+                    created_by: user?.primaryEmailAddress?.emailAddress,
+                    created_at: moment().format('DD-MM-yyyy')
+                })
+                .returning({ mock_id: MockInterview.mock_id });
 
-                // console.log('Inserted Id: ', resp);
+                console.log('Inserted Id: ', resp[0]);
                 if (resp) {
                     setOpenDialog(false);
-                    router.push('/dashboard/Interview/' + resp[0]?.mockId);
+                    router.push('/dashboard/Interview/' + resp[0]?.mock_id);
                 }
             } else {
                 console.log('Error in generating mock interview response.');

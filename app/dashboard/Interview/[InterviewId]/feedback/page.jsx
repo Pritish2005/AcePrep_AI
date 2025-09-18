@@ -1,6 +1,6 @@
 'use client'
-import db from '@/utils/db'
-import { UserAnswer } from '@/utils/schema'
+import {db} from '@/utils/db'
+import { userAnswer } from '@/utils/schema'
 import { eq } from 'drizzle-orm'
 import React, { useEffect,useState } from 'react'
 import {
@@ -17,14 +17,16 @@ function page({params}) {
     const [overAllRating,setOverAllRating]=useState(0);
     const [feedbackList,setFeedbackList]=useState([]);
     const router=useRouter();
+
     useEffect(()=>{
         getFeedback();
     },[])
+
     const getFeedback=async()=>{
         const result=await db.select()
-        .from(UserAnswer)
-        .where(eq(UserAnswer.mockIdRef,params.InterviewId))
-        .orderBy(UserAnswer.id);
+        .from(userAnswer)
+        .where(eq(userAnswer.mock_id_ref,params.InterviewId))
+        .orderBy(userAnswer.created_at);
 
         // console.log(result)
         setFeedbackList(result);
